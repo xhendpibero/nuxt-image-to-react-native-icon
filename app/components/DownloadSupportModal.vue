@@ -62,7 +62,7 @@
           Download ZIP
         </button>
         <a
-          href="https://tako.id/example"
+          href="https://tako.id/bgchipkoding"
           target="_blank"
           rel="noopener noreferrer"
           class="flex-1 px-6 py-3 rounded-full border-2 font-semibold transition-all text-center modal-button-secondary"
