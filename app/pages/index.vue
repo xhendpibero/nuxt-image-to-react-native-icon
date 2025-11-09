@@ -113,6 +113,20 @@ useHead(() => ({
       rel: 'canonical',
       href: canonicalUrl.value,
     },
+    // Favicon and app icons
+    {
+      rel: 'icon',
+      type: 'image/png',
+      href: '/icon.png',
+    },
+    {
+      rel: 'apple-touch-icon',
+      href: '/icon.png',
+    },
+    {
+      rel: 'shortcut icon',
+      href: '/icon.png',
+    },
   ],
   meta: [
     {

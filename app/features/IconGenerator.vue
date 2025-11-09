@@ -99,15 +99,21 @@
           <h3 class="font-semibold text-lg mb-1">Icons Generated Successfully!</h3>
           <p class="text-sm text-[var(--text-secondary)]">Archive size: {{ formatFilesize(zipResult.size) }}</p>
         </div>
-        <a
-          :href="zipResult.url"
-          download="react-native-icons.zip"
-          class="px-6 py-3 rounded-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent-strong)] text-[var(--accent-contrast)] font-semibold shadow-[var(--shadow-accent)] hover:shadow-[var(--shadow-accent-strong)] hover:-translate-y-0.5 transition-all inline-block"
+        <button
+          type="button"
+          class="px-6 py-3 rounded-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent-strong)] text-[var(--accent-contrast)] font-semibold shadow-[var(--shadow-accent)] hover:shadow-[var(--shadow-accent-strong)] hover:-translate-y-0.5 transition-all"
+          @click="showDownloadPopup = true"
         >
           Download ZIP
-        </a>
+        </button>
       </div>
     </div>
+
+    <!-- Download Popup -->
+    <DownloadSupportModal
+      v-model="showDownloadPopup"
+      @download="handleDownload"
+    />
 
     <p v-if="error" class="mt-4 text-[var(--danger)] font-semibold">{{ error }}</p>
   </section>
@@ -137,6 +143,7 @@ const isProcessing = ref(false)
 const zipResult = ref<{ url: string; size: number } | null>(null)
 const error = ref<string | null>(null)
 const isDragging = ref(false)
+const showDownloadPopup = ref(false)
 
 function processFile(file: File) {
   // Validate file type
@@ -310,6 +317,21 @@ async function resizeImage(
       1.0
     )
   })
+}
+
+function handleDownload() {
+  if (!zipResult.value) return
+  
+  // Create a temporary link and trigger download
+  const link = document.createElement('a')
+  link.href = zipResult.value.url
+  link.download = 'react-native-icons.zip'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  
+  // Close the popup
+  showDownloadPopup.value = false
 }
 
 function formatFilesize(size: number): string {
